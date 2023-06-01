@@ -1,9 +1,25 @@
 <?php 
 
-    include 'functions.php';
+    require 'functions.php';
+
     if(isset($_POST['login'])){
-        login($_POST);
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $result = mysqli_query($conn, "SELECT * FROM akun2 WHERE username = '$username'");
+        if(mysqli_num_rows($result) === 1){
+            $arrResult = mysqli_fetch_assoc($result);
+            if(password_verify($password, $arrResult['password'])){
+                header('Location: index.php');
+                exit;
+            } else{
+                $wrongPw = true;
+            }
+        } else{
+            $wrongUsername = true;
+        }
     }
+
 
 ?>
 
@@ -20,13 +36,20 @@
 
 <body class="m-5">
     <h1>Log In</h1>
+
     <form action="" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Username:</label>
+            <?php if(isset($wrongUsername)) :?>
+                <p style="color:red;">Username not found!</p>
+            <?php endif;?>
             <input type="text" class="form-control w-50" id="username" name="username" placeholder="Masukan Username.." required autofocus autocomplete="off">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
+            <?php if(isset($wrongPw)) :?>
+                <p style="color:red;">Incorrect password!</p>
+            <?php endif;?>
             <input type="password" class="form-control w-50" id="password" name="password" placeholder="Masukan Password.." required autocomplete="off">
         </div>
         <button type="submit" class="btn btn-primary" name="login">Masuk</button>

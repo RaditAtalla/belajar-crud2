@@ -140,26 +140,3 @@ function registration($data)
 
     return mysqli_affected_rows($conn);
 }
-
-function login($data)
-{
-    global $conn;
-
-    $username = $data['username'];
-    $password = $data['password'];
-    // ! up next = get password hash to check passwor
-
-    // ? ambil username dan password di db
-    $usernameDB = mysqli_query($conn, "SELECT username FROM akun2 WHERE username = '$username'") -> num_rows;
-    $passwordDB = mysqli_query($conn, "SELECT password FROM akun2 WHERE password = '$password'");
-
-    // if($usernameDB > 0){
-    //     echo '<script>
-    //         alert("Bisa anjir");
-    //     </script>';
-    // } else {
-    //     echo '<script>
-    //         alert("wtf gabisa");
-    //     </script>';
-    // }
-}
