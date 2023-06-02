@@ -1,4 +1,10 @@
 <?php 
+    session_start();
+    if(!isset($_SESSION['login'])){
+        header('Location: login.php');
+        exit;
+    }
+
     require 'functions.php';
     $kawan = query('SELECT * FROM kawan');
 
@@ -25,6 +31,7 @@
 </head>
 
 <body class="m-5">
+    <a href="logout.php">Logout</a>
     <h1>BELAJAR CRUD</h1>
     <a href="registration.php" class="btn btn-warning ms-1" style="float: right;">Sign Up</a>
     <a href="login.php" class="btn btn-success" style="float: right;">Log In</a>
