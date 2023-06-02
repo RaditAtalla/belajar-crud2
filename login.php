@@ -1,10 +1,23 @@
 <?php 
     session_start();
+    require 'functions.php';
+
+    if(isset($_COOKIE['id']) && isset($_COOKIE['key'])){
+        $id = $_COOKIE['id'];
+        $key = $_COOKIE['key'];
+
+        $result = mysqli_query($conn, "SELECT * FROM akun2 WHERE id = $id");
+        $row = mysqli_fetch_assoc($result);
+
+        if($key === hash('sha1', $row['username'])){
+            $_SESSION['login'] = true;
+        }
+    }
+
     if(isset($_SESSION['login'])){
         header('Location: index.php');
         exit;
     }
-    require 'functions.php';
 
     if(isset($_POST['login'])){
         $username = $_POST['username'];
@@ -15,6 +28,12 @@
             $arrResult = mysqli_fetch_assoc($result);
             if(password_verify($password, $arrResult['password'])){
                 $_SESSION['login'] = true;
+
+                if(isset($_POST['remember'])){
+                    setcookie('id', $arrResult['id'], time() + 60);
+                    setcookie('key', hash('sha1', $arrResult['username']), time() + 60);
+                }
+
                 header('Location: index.php');
                 exit;
             } else{
@@ -56,6 +75,10 @@
                 <p style="color:red;">Incorrect password!</p>
             <?php endif;?>
             <input type="password" class="form-control w-50" id="password" name="password" placeholder="Masukan Password.." required autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember" class="form-label">Remember me</label>
         </div>
         <button type="submit" class="btn btn-primary" name="login">Masuk</button>
     </form>
