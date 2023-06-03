@@ -47,7 +47,7 @@ function edit($data)
     $id = $data['id'];
     $nama = htmlspecialchars($data['nama']);
     $nisn = htmlspecialchars($data['nisn']);
-    $gambar = htmlspecialchars($data['gambar']);
+    $gambar = upload();
 
     $query = "UPDATE kawan SET
                 nama = '$nama',
@@ -89,7 +89,7 @@ function upload()
 
     if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
         echo '<script>
-            alert("Bukan gambar itu, ekstensi harus jpg, jpeg, atau png");
+            alert("Ekstensi harus jpg, jpeg, atau png");
         </script>';
         return false;
     }

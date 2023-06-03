@@ -36,8 +36,9 @@ if (isset($_POST['edit'])){
 </head>
 
 <body class="m-5">
+    <a href="index.php" class="btn btn-secondary">Back</a>
     <h1>Edit Data</h1>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <input type="hidden" class="form-control w-50" name="id" value="<?= $kawan['id'] ?>">
         </div>
@@ -51,7 +52,7 @@ if (isset($_POST['edit'])){
         </div>
         <div class="mb-3">
             <label class="form-label" for="inputGambar">Gambar</label>
-            <input type="text" class="form-control w-50" id="inputGambar" name="gambar" placeholder="Masukan Gambar.." value="<?= $kawan['gambar'] ?>" required autocomplete="off">
+            <input type="file" class="form-control w-50" id="inputGambar" name="gambar" autocomplete="off">
         </div>
         <button type="submit" class="btn btn-primary" name="edit">Simpan</button>
     </form>
